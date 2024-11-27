@@ -1,0 +1,13 @@
+{
+    "autoload": {
+        "classmap": ["src/"]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11"
+    },
+    "scripts": {
+        "phpunit": [
+            "vendor/bin/phpunit tests --bootstrap vendor/autoload.php"
+        ]
+    }
+}
