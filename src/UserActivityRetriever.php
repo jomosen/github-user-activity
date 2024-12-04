@@ -9,7 +9,7 @@ class UserActivityRetriever
         $this->setEventsFromUserActivity($username);
     }
 
-    private function setEventsFromUserActivity(string $username)
+    private function setEventsFromUserActivity(string $username): void
     {
         $user_activity = $this->fetchUserActivity($username);
         foreach ($user_activity as $event_data) {
@@ -34,7 +34,7 @@ class UserActivityRetriever
         return $user_activity;
     }
 
-    private function performUserActivityRequest(string $username)
+    private function performUserActivityRequest(string $username): string
     {
         $endpoint = "https://api.github.com/users/{$username}/events";
 
@@ -63,7 +63,7 @@ class UserActivityRetriever
         return $response;
     }
 
-    public function displayEvents()
+    public function displayEvents(): void
     {
         foreach ($this->events as $event) {
             echo $event->getMessage();
