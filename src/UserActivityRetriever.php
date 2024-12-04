@@ -2,19 +2,28 @@
 
 class UserActivityRetriever 
 {
-    private string $username;
     private array $events;
 
     public function __construct(string $username)
     {
-        $this->username = $username;
-        $user_activity = $this->fetchUserActivity();
-        $this->setEventsFromUserActivity($user_activity);
+        $this->setEventsFromUserActivity($username);
     }
 
-    private function fetchUserActivity(): array
+    private function setEventsFromUserActivity(string $username)
     {
-        $response = $this->performUserActivityRequest();        
+        $user_activity = $this->fetchUserActivity($username);
+        foreach ($user_activity as $event_data) {
+            try {
+                $this->events[]= EventFactory::createEvent($event_data);
+            } catch (EventTypeNotFoundException $e) { 
+
+            }
+        }
+    }
+
+    private function fetchUserActivity(string $username): array
+    {
+        $response = $this->performUserActivityRequest($username);        
 
         $user_activity = json_decode($response);
 
@@ -25,9 +34,9 @@ class UserActivityRetriever
         return $user_activity;
     }
 
-    private function performUserActivityRequest()
+    private function performUserActivityRequest(string $username)
     {
-        $endpoint = "https://api.github.com/users/{$this->username}/events";
+        $endpoint = "https://api.github.com/users/{$username}/events";
 
         $ch = curl_init($endpoint);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -52,17 +61,6 @@ class UserActivityRetriever
         }
 
         return $response;
-    }
-
-    private function setEventsFromUserActivity(array $user_activity)
-    {
-        foreach ($user_activity as $event_data) {
-            try {
-                $this->events[]= EventFactory::createEvent($event_data);
-            } catch (EventTypeNotFoundException $e) { 
-
-            }
-        }
     }
 
     public function displayEvents()
