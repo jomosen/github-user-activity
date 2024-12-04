@@ -4,4 +4,4 @@ A simple PHP project that uses the command line interface (CLI) to fetch a user'
 This is a project idea from Roadmap.sh. Follow the link below for details: https://roadmap.sh/projects/github-user-activity.
 
 ## Instructions to run the project
-Assuming you have PHP installed on your system, clone the project and open a terminal in the root of the project directory. Then run: php github-activity.php <username>
+Assuming you have PHP installed on your system, clone the project and open a terminal in the root of the project directory. Then run: php github-activity.php username
